@@ -16,8 +16,26 @@
 
 <body class="page-preload">
 
+    <nav class="topbar" aria-label="Primary">
+        <div class="container">
+            <a href="#home" class="brand-mark" aria-label="Go to home">JM</a>
+            <button type="button" class="topbar-toggle" id="topbar-toggle" aria-expanded="false"
+                aria-controls="topbar-links" aria-label="Open navigation menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="topbar-links" id="topbar-links">
+                <a href="#home" class="topbar-link">Home</a>
+                <a href="#portfolio" class="topbar-link">Projects</a>
+                <a href="#contact" class="topbar-link">Contacts</a>
+                <button type="button" class="topbar-link topbar-link-button" id="resume-button">Resume</button>
+            </div>
+        </div>
+    </nav>
+
     <!-- HERO SECTION -->
-    <header class="hero">
+    <header class="hero" id="home">
         <div class="hero-orb hero-orb-left"></div>
         <div class="hero-orb hero-orb-right"></div>
         <div class="container">
@@ -28,11 +46,6 @@
                     comprehensive technical documentation, and creative visual arts. Experienced in managing lifecycle
                     documentation, producing custom digital media assets, and transforming complex user workflows into
                     intuitive, fully responsive web interfaces.</p>
-                <div class="hero-cta">
-                    <a href="#portfolio" class="btn primary">View Work</a>
-                    <button type="button" class="btn secondary" id="resume-button">View Resume</button>
-                    <a href="#contact" class="btn secondary">Contact Me</a>
-                </div>
             </div>
             <div class="hero-portrait-wrap">
                 <div class="hero-portrait-frame">
@@ -586,7 +599,7 @@
             <p class="gallery-eyebrow">Resume Preview</p>
             <h3 id="resume-title">Julmar Mordin's Resume</h3>
             <div class="resume-frame">
-                <iframe src="resume.pdf" title="Resume PDF Preview" class="resume-pdf"></iframe>
+                <iframe src="Julmar Mordin Resume.pdf" title="Resume PDF Preview" class="resume-pdf"></iframe>
             </div>
         </div>
     </div>
@@ -638,6 +651,9 @@
         const resumeButton = document.getElementById('resume-button');
         const resumeModal = document.getElementById('resume-modal');
         const closeResumeButtons = resumeModal.querySelectorAll('[data-close-resume]');
+        const topbarToggle = document.getElementById('topbar-toggle');
+        const topbarLinks = document.getElementById('topbar-links');
+        const topbarNavLinks = topbarLinks.querySelectorAll('a, button');
         const portfolioItems = document.querySelectorAll('.portfolio-item');
         const contactCards = document.querySelectorAll('.contact-card');
         let activeGallery = null;
@@ -748,6 +764,7 @@
             resumeModal.classList.add('is-open');
             resumeModal.setAttribute('aria-hidden', 'false');
             document.body.classList.add('modal-open');
+            closeMobileMenu();
         }
 
         function closeResume() {
@@ -785,6 +802,26 @@
         });
 
         resumeButton.addEventListener('click', openResume);
+
+        function closeMobileMenu() {
+            topbarLinks.classList.remove('is-open');
+            topbarToggle.setAttribute('aria-expanded', 'false');
+            topbarToggle.setAttribute('aria-label', 'Open navigation menu');
+        }
+
+        topbarToggle.addEventListener('click', () => {
+            const isOpen = topbarLinks.classList.toggle('is-open');
+            topbarToggle.setAttribute('aria-expanded', String(isOpen));
+            topbarToggle.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+        });
+
+        topbarNavLinks.forEach((link) => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    closeMobileMenu();
+                }
+            });
+        });
 
         closeResumeButtons.forEach((button) => {
             button.addEventListener('click', closeResume);
