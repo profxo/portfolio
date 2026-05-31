@@ -599,7 +599,7 @@
             <p class="gallery-eyebrow">Resume Preview</p>
             <h3 id="resume-title">Julmar Mordin's Resume</h3>
             <div class="resume-frame">
-                <iframe src="Julmar Mordin Resume.pdf" title="Resume PDF Preview" class="resume-pdf"></iframe>
+                <iframe data-src="Julmar Mordin Resume.pdf" title="Resume PDF Preview" class="resume-pdf"></iframe>
             </div>
         </div>
     </div>
@@ -651,6 +651,7 @@
         const resumeButton = document.getElementById('resume-button');
         const resumeModal = document.getElementById('resume-modal');
         const closeResumeButtons = resumeModal.querySelectorAll('[data-close-resume]');
+        const resumePdf = resumeModal.querySelector('.resume-pdf');
         const topbarToggle = document.getElementById('topbar-toggle');
         const topbarLinks = document.getElementById('topbar-links');
         const topbarNavLinks = topbarLinks.querySelectorAll('a, button');
@@ -761,6 +762,10 @@
         }
 
         function openResume() {
+            if (resumePdf && !resumePdf.getAttribute('src')) {
+                resumePdf.setAttribute('src', resumePdf.dataset.src);
+            }
+
             resumeModal.classList.add('is-open');
             resumeModal.setAttribute('aria-hidden', 'false');
             document.body.classList.add('modal-open');
